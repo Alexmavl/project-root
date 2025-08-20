@@ -9,7 +9,7 @@ export const config = {
   db: {
     user: process.env.DB_USER || 'sa',
     password: process.env.DB_PASSWORD || 'YourStrong!Passw0rd',
-    database: process.env.DB_NAME || 'appdb',
+    database: process.env.DB_NAME || 'gestiondb',
     server: process.env.DB_HOST || 'localhost',
     port: Number(process.env.DB_PORT || 1433),
     options: {
