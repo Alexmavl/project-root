@@ -1,0 +1,5 @@
+-- Seed mínimo: crear usuarios vía API (recomendado)
+-- 1) Levanta la API, 2) llama POST /usuarios para crear técnico y coordinador.
+-- Ejemplos JSON:
+--   { "nombre":"Tecnico Uno", "email":"tecnico@demo.com", "rol":"tecnico", "password":"Secret123!" }
+--   { "nombre":"Coordinador Uno", "email":"coord@demo.com", "rol":"coordinador", "password":"Secret123!" }

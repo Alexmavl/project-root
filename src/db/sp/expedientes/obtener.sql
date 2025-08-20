@@ -1,0 +1,7 @@
+CREATE OR ALTER PROCEDURE dbo.sp_Expedientes_Obtener
+  @id UNIQUEIDENTIFIER
+AS
+BEGIN
+  SET NOCOUNT ON;
+  SELECT TOP 1 * FROM dbo.Expedientes WHERE id = @id;
+END
