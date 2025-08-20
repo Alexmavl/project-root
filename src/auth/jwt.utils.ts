@@ -1,10 +1,15 @@
 import jwt from 'jsonwebtoken';
 import { config } from '../config/env';
 
-export function signJwt(payload: object, expiresIn = '1h') {
-  return jwt.sign(payload, config.jwtSecret, { expiresIn });
+const SECRET: jwt.Secret = config.jwtSecret;
+
+export function signJwt(
+  payload: jwt.JwtPayload | string,
+  options?: jwt.SignOptions
+) {
+  return jwt.sign(payload, SECRET, options);
 }
 
 export function verifyJwt<T = any>(token: string): T {
-  return jwt.verify(token, config.jwtSecret) as T;
+  return jwt.verify(token, SECRET) as T;
 }
