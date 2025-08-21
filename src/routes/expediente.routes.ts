@@ -1,10 +1,16 @@
+// src/routes/expediente.routes.ts
 import { Router } from 'express';
 import { requireAuth } from '../auth/auth.middleware';
 import { requireRole } from '../auth/role.middleware';
 import { requireFields } from '../middlewares/validate.middleware';
 import {
-  listarExpedientes, obtenerExpediente, crearExpediente,
-  actualizarExpediente, cambiarEstadoExpediente, activarDesactivarExpediente
+  listarExpedientes,
+  obtenerExpedientePorCodigo,
+  crearExpediente,
+  // ← este debe actualizar por CÓDIGO (ver nota al final)
+  actualizarExpedientePorCodigo,
+  cambiarEstadoPorCodigo,
+  activarDesactivarPorCodigo
 } from '../controllers/expediente.controller';
 
 const router = Router();
@@ -13,7 +19,7 @@ const router = Router();
  * @swagger
  * tags:
  *   name: Expedientes
- *   description: Gestión de expedientes
+ *   description: Gestión de expedientes (basada en CÓDIGO)
  */
 
 /**
@@ -45,23 +51,6 @@ router.get('/', requireAuth, listarExpedientes);
 
 /**
  * @swagger
- * /expedientes/{id}:
- *   get:
- *     summary: Obtener expediente por id
- *     tags: [Expedientes]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema: { type: string, format: uuid }
- *     responses:
- *       200: { description: OK }
- *       404: { description: No encontrado }
- */
-router.get('/:id', requireAuth, obtenerExpediente);
-
-/**
- * @swagger
  * /expedientes:
  *   post:
  *     summary: Crear expediente
@@ -80,19 +69,42 @@ router.get('/:id', requireAuth, obtenerExpediente);
  *       201: { description: Creado }
  *       409: { description: Código duplicado }
  */
-router.post('/', requireAuth, requireRole('tecnico'), requireFields(['codigo', 'descripcion']), crearExpediente);
+router.post(
+  '/',
+  requireAuth,
+  requireRole('tecnico'),
+  requireFields(['codigo', 'descripcion']),
+  crearExpediente
+);
 
 /**
  * @swagger
- * /expedientes/{id}:
- *   put:
- *     summary: Actualizar expediente
+ * /expedientes/{codigo}:
+ *   get:
+ *     summary: Obtener expediente por código
  *     tags: [Expedientes]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: codigo
+ *         schema: { type: string }
  *         required: true
- *         schema: { type: string, format: uuid }
+ *     responses:
+ *       200: { description: OK }
+ *       404: { description: No encontrado }
+ */
+router.get('/:codigo', requireAuth, obtenerExpedientePorCodigo);
+
+/**
+ * @swagger
+ * /expedientes/{codigo}:
+ *   put:
+ *     summary: Actualizar expediente por código
+ *     tags: [Expedientes]
+ *     parameters:
+ *       - in: path
+ *         name: codigo
+ *         required: true
+ *         schema: { type: string }
  *     requestBody:
  *       required: true
  *       content:
@@ -105,21 +117,28 @@ router.post('/', requireAuth, requireRole('tecnico'), requireFields(['codigo', '
  *               descripcion: { type: string }
  *     responses:
  *       200: { description: OK }
- *       404: { description: No encontrado o sin permisos }
+ *       404: { description: No encontrado }
+ *       409: { description: Código duplicado }
  */
-router.put('/:id', requireAuth, requireRole('tecnico'), requireFields(['codigo', 'descripcion']), actualizarExpediente);
+router.put(
+  '/:codigo',
+  requireAuth,
+  requireRole('tecnico'),
+  requireFields(['codigo', 'descripcion']),
+  actualizarExpedientePorCodigo
+);
 
 /**
  * @swagger
- * /expedientes/{id}/estado:
+ * /expedientes/{codigo}/estado:
  *   patch:
- *     summary: Cambiar estado del expediente
+ *     summary: Cambiar estado por código
  *     tags: [Expedientes]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: codigo
  *         required: true
- *         schema: { type: string, format: uuid }
+ *         schema: { type: string }
  *     requestBody:
  *       required: true
  *       content:
@@ -133,22 +152,28 @@ router.put('/:id', requireAuth, requireRole('tecnico'), requireFields(['codigo',
  *     responses:
  *       200: { description: OK }
  *       400: { description: Estado inválido o justificación requerida }
- *       404: { description: No encontrado }
  *       403: { description: Aprobador inválido }
+ *       404: { description: No encontrado }
  */
-router.patch('/:id/estado', requireAuth, requireRole('coordinador'), requireFields(['estado']), cambiarEstadoExpediente);
+router.patch(
+  '/:codigo/estado',
+  requireAuth,
+  requireRole('coordinador'),
+  requireFields(['estado']),
+  cambiarEstadoPorCodigo
+);
 
 /**
  * @swagger
- * /expedientes/{id}/activo:
+ * /expedientes/{codigo}/activo:
  *   patch:
- *     summary: Activar/Desactivar expediente
+ *     summary: Activar/Desactivar por código
  *     tags: [Expedientes]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: codigo
  *         required: true
- *         schema: { type: string, format: uuid }
+ *         schema: { type: string }
  *     requestBody:
  *       required: true
  *       content:
@@ -162,6 +187,11 @@ router.patch('/:id/estado', requireAuth, requireRole('coordinador'), requireFiel
  *       200: { description: OK }
  *       404: { description: No encontrado }
  */
-router.patch('/:id/activo', requireAuth, requireFields(['activo']), activarDesactivarExpediente);
+router.patch(
+  '/:codigo/activo',
+  requireAuth,
+  requireFields(['activo']),
+  activarDesactivarPorCodigo
+);
 
 export default router;
