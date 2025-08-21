@@ -29,7 +29,7 @@
 
 # Instalar dependencias
 
-<pre> ```powershell npm install ``` </pre>
+<pre> powershell npm install </pre>
 
 
 # ⚙️ Variables de entorno
@@ -64,7 +64,7 @@ services:
     restart: unless-stopped
 
 ## Levantar:
-<pre> ```powershell docker compose up -d ``` </pre>
+<pre>  docker compose up -d </pre>
 
 
 ## Ver logs (opcional):
@@ -150,7 +150,7 @@ Este proyecto utiliza Jest con TypeScript para las pruebas unitarias.
 Si todavía no tienes Jest y sus tipos instalados, ejecuta:
  
 
-<pre> ```powershell npm install -D jest ts-jest @types/jest typescript ts-node ``` </pre>
+<pre> npm install -D jest ts-jest @types/jest typescript ts-node </pre>
 
 ## 2️⃣ Configuración de Jest (ya incluida)
 
@@ -161,13 +161,13 @@ Los tests se encuentran en la carpeta test/.
 
 Para correr todas las pruebas:
 
-<pre> ```powershell npx jest ``` </pre>
+<pre> npx jest </pre>
 
 
 Para correr un archivo específico, por ejemplo el de expedientes:
 
 
-<pre> ```powershell npx jest test/expediente.controller.test.ts ``` </pre>
+<pre>  npx jest test/expediente.controller.test.ts </pre>
 
 ## 4️⃣ Ver resultados
 
@@ -188,7 +188,7 @@ Y entonces solo necesitas:
 
 
 
-<pre> ```powershell npm test ``` </pre>
+<pre> powershell npm test </pre>
 
 
 
