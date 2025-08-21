@@ -1,10 +1,6 @@
-// src/controllers/expediente.controller.ts
 import { Request, Response } from 'express';
 import { ejecutarSP } from '../db/db';
 
-/**
- * Listar expedientes (filtros por q, estado, activo) con paginación.
- */
 export async function listarExpedientes(req: Request, res: Response) {
   const { q = '', page = '1', pageSize = '10', estado, activo } = req.query as any;
 
@@ -24,10 +20,6 @@ export async function listarExpedientes(req: Request, res: Response) {
   res.json({ page: pageNum, pageSize: pageSizeNum, total, data: rows });
 }
 
-/**
- * Obtener expediente por CÓDIGO.
- * GET /expedientes/:codigo
- */
 export async function obtenerExpedientePorCodigo(req: Request, res: Response) {
   const { codigo } = req.params;
 
@@ -44,15 +36,11 @@ export async function obtenerExpedientePorCodigo(req: Request, res: Response) {
   }
 }
 
-/**
- * Crear expediente.
- * POST /expedientes
- */
+
 export async function crearExpediente(req: Request, res: Response) {
   let { codigo, descripcion } = req.body as { codigo: string; descripcion: string };
   const tecnico_id = req.user!.id;
 
-  // Normalización + validaciones básicas
   codigo = (codigo ?? '').toString().trim();
   descripcion = (descripcion ?? '').toString().trim();
   if (!codigo) return res.status(400).json({ message: 'codigo requerido' });
@@ -79,20 +67,14 @@ export async function crearExpediente(req: Request, res: Response) {
   }
 }
 
-/**
- * Actualizar expediente por CÓDIGO (ruta).
- * PUT /expedientes/:codigo
- *
- * Usa @codigo_lookup (el de la ruta) para resolver el registro
- * y @codigo (del body) como el nuevo código a guardar (puede ser el mismo).
- */
+
 export async function actualizarExpedientePorCodigo(req: Request, res: Response) {
   const { codigo: codigoPath } = req.params;
   let { codigo, descripcion } = req.body as { codigo: string; descripcion: string };
   const tecnico_id = req.user!.id;
 
-  const codigo_lookup = (codigoPath ?? '').toString().trim(); // para buscar el expediente existente
-  codigo = (codigo ?? '').toString().trim();                   // nuevo código (o el mismo)
+  const codigo_lookup = (codigoPath ?? '').toString().trim(); 
+  codigo = (codigo ?? '').toString().trim();                  
   descripcion = (descripcion ?? '').toString().trim();
 
   if (!codigo_lookup) return res.status(400).json({ message: 'codigo de ruta requerido' });
@@ -100,7 +82,7 @@ export async function actualizarExpedientePorCodigo(req: Request, res: Response)
   if (!descripcion) return res.status(400).json({ message: 'descripcion requerida' });
 
   try {
-    // SP actualizado acepta @id O @codigo_lookup
+    
     const rows = await ejecutarSP('dbo.sp_Expedientes_Actualizar', {
       codigo_lookup,
       codigo,
@@ -128,16 +110,13 @@ export async function actualizarExpedientePorCodigo(req: Request, res: Response)
   }
 }
 
-/**
- * Cambiar estado por CÓDIGO.
- * PATCH /expedientes/:codigo/estado
- */
+
 export async function cambiarEstadoPorCodigo(req: Request, res: Response) {
   const { codigo } = req.params;
   let { estado, justificacion } = req.body as { estado: string; justificacion?: string };
-  const aprobador_id = req.user!.id; // requireAuth ya pobló req.user
+  const aprobador_id = req.user!.id;
 
-  // Normalizaciones mínimas
+
   const codigoNorm = (codigo ?? '').toString().trim();
   estado = (estado ?? '').toString().trim().toLowerCase();
   justificacion = justificacion?.toString().trim();
@@ -184,10 +163,6 @@ export async function cambiarEstadoPorCodigo(req: Request, res: Response) {
   }
 }
 
-/**
- * Activar/Desactivar por CÓDIGO.
- * PATCH /expedientes/:codigo/activo
- */
 export async function activarDesactivarPorCodigo(req: Request, res: Response) {
   const { codigo } = req.params;
   let { activo } = req.body as { activo: boolean | number | string };
@@ -218,7 +193,7 @@ export async function activarDesactivarPorCodigo(req: Request, res: Response) {
       return res.status(404).json({ message: 'Expediente no encontrado' });
     }
 
-    // Contrato del SP: { id, activo, actualizado_en }
+   
     return res.json(rows[0]);
   } catch (err: any) {
     const msg = String(err?.message || '');

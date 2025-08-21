@@ -28,7 +28,9 @@
 - `cd project-root`
 
 # Instalar dependencias
-npm install
+
+<pre> ```powershell npm install ``` </pre>
+
 
 # ⚙️ Variables de entorno
 - ` Crea un archivo .env en la raíz (o usa src/config/env.ts que ya lee process.env):`
@@ -62,7 +64,8 @@ services:
     restart: unless-stopped
 
 ## Levantar:
-docker compose up -d
+<pre> ```powershell docker compose up -d ``` </pre>
+
 
 ## Ver logs (opcional):
 
@@ -137,3 +140,56 @@ Asegúrate de que no estén en uso. Si EADDRINUSE: 3000, mata el proceso que ocu
 - `Swagger no muestra rutas`
 - `Revisa setupSwagger → apis: ['src/**/*.routes.ts', `
 - `'src/app.ts'] y comentarios JSDoc.`
+
+# 🧪 Pruebas
+
+Este proyecto utiliza Jest con TypeScript para las pruebas unitarias.
+
+1️⃣ Instalación (solo la primera vez)
+
+Si todavía no tienes Jest y sus tipos instalados, ejecuta:
+ 
+
+<pre> ```powershell npm install -D jest ts-jest @types/jest typescript ts-node ``` </pre>
+
+## 2️⃣ Configuración de Jest (ya incluida)
+
+El proyecto está configurado con ts-jest, por lo que no necesitas pasos extra.
+Los tests se encuentran en la carpeta test/.
+
+## 3️⃣ Ejecutar pruebas
+
+Para correr todas las pruebas:
+
+<pre> ```powershell npx jest ``` </pre>
+
+
+Para correr un archivo específico, por ejemplo el de expedientes:
+
+
+<pre> ```powershell npx jest test/expediente.controller.test.ts ``` </pre>
+
+## 4️⃣ Ver resultados
+
+✅ Si todas pasan, verás verde con el tiempo de ejecución.
+
+❌ Si alguna falla, Jest mostrará la diferencia entre lo esperado y lo recibido.
+
+5️⃣ (Opcional) Agregar script en package.json
+
+Puedes simplificar el comando agregando en tu package.json dentro de "scripts":
+
+"scripts": {
+  "test": "jest"
+}
+
+
+Y entonces solo necesitas:
+
+
+
+<pre> ```powershell npm test ``` </pre>
+
+
+
+
