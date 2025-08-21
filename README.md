@@ -29,7 +29,7 @@
 
 # Instalar dependencias
 
-<pre> powershell npm install </pre>
+<pre>  npm install </pre>
 
 
 # ⚙️ Variables de entorno
