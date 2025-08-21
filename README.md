@@ -31,8 +31,7 @@
 npm install
 
 # ⚙️ Variables de entorno
-
-## Crea un archivo .env en la raíz (o usa src/config/env.ts que ya lee process.env):
+ Crea un archivo .env en la raíz (o usa src/config/env.ts que ya lee process.env):
 
 - `NODE_ENV=development`
 - `PORT=3000`
@@ -70,11 +69,11 @@ docker compose up -d
 
 ## Ver logs (opcional):
 
-- ` Los PS y Tablas de la base de datos gestiondb se encuentran en la carpeta db dentro de la carpeta src que se tienen crear en la base de datos`
+ Los PS y Tablas de la base de datos gestiondb se encuentran en la carpeta db dentro de la carpeta src que se tienen crear en la base de datos
 
  # ▶️ Correr la API
 
-npm run dev     # nodemon (dev)
+- `npm run dev     # nodemon (dev)`
 
 - `API: http://localhost:3000`
 
@@ -82,7 +81,7 @@ npm run dev     # nodemon (dev)
 
 ## 🔐 Flujo de autenticación
 
-## Crear usuario (público): POST /usuarios
+ Crear usuario (público): POST /usuarios
 
 - `{ "nombre":"Tec 1", "email":"tecnico@demo.com", "rol":"tecnico", "password":"Secret123!" }`
 
@@ -96,32 +95,32 @@ npm run dev     # nodemon (dev)
 
 ## 1433 → SQL Server en Docker
 
-- `Asegúrate de que no estén en uso. Si EADDRINUSE: 3000, mata el proceso que ocupa ese puerto (PowerShell):`
+Asegúrate de que no estén en uso. Si EADDRINUSE: 3000, mata el proceso que ocupa ese puerto (PowerShell):
 
-Get-NetTCPConnection -LocalPort 3000 | Select-Object -ExpandProperty OwningProcess
-Stop-Process -Id <PID> -Force
+- `Get-NetTCPConnection -LocalPort 3000 | Select-Object -ExpandProperty OwningProcess`
+- `Stop-Process -Id <PID> -Force`
 
 # 🧪 Endpoints útiles
 
-## POST /usuarios (crear usuario)
+- ` POST /usuarios (crear usuario)`
 
-## GET /usuarios (listar) – protegido, típicamente para coordinador
+- ` GET /usuarios (listar) – protegido, típicamente para coordinador`
 
-## POST /auth/login (obtener token)
+- ` POST /auth/login (obtener token)`
 
-## GET /expedientes (listar)
+- ` GET /expedientes (listar)`
 
-## POST /expedientes (crear, requiere rol tecnico)
+- ` POST /expedientes (crear, requiere rol tecnico)`
  
-## GET /expedientes/{id} (obtener por id)
+- ` GET /expedientes/{id} (obtener por id)`
 
-## GET /expedientes/codigo/{codigo} (obtener por código)
+- ` GET /expedientes/codigo/{codigo} (obtener por código)`
 
-## PATCH /expedientes/{id}/estado (requiere coordinador)
+- ` PATCH /expedientes/{id}/estado (requiere coordinador)`
 
-## GET /expedientes/:id/indicios (listar por expediente)
+- ` GET /expedientes/:id/indicios (listar por expediente)`
 
-## POST /expedientes/:id/indicios (crear indicio)
+- ` POST /expedientes/:id/indicios (crear indicio)`
 
 # 🛠️ Troubleshooting
 
