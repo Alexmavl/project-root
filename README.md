@@ -31,19 +31,18 @@
 npm install
 
 # ⚙️ Variables de entorno
- Crea un archivo .env en la raíz (o usa src/config/env.ts que ya lee process.env):
+- ` Crea un archivo .env en la raíz (o usa src/config/env.ts que ya lee process.env):`
 
-- `NODE_ENV=development`
-- `PORT=3000`
-- `LOG_LEVEL=info`
-- `JWT_SECRET=supersecretchangeit`
-
-- `DB_USER=sa`
-- `DB_PASSWORD=YourStrong!Passw0rd`
-- `DB_NAME=gestiondb`
-- `DB_HOST=localhost`
-- `DB_PORT=1433`
-- `DB_TRUST_CERT=true`
+NODE_ENV=development
+PORT=3000
+LOG_LEVEL=info
+JWT_SECRET=supersecretchangeit
+DB_USER=sa
+DB_PASSWORD=YourStrong!Passw0rd
+DB_NAME=gestiondb
+DB_HOST=localhost
+DB_PORT=1433
+DB_TRUST_CERT=true
 
 # 🐳 Levantar SQL Server con Docker
 ## docker-compose.yml (sugerido)
@@ -85,14 +84,14 @@ docker compose up -d
 - `{ "nombre":"Tec 1", "email":"tecnico@demo.com", "rol":"tecnico", "password":"Secret123!" }`
 
 ## Login: POST /auth/login → devuelve { token, user }
-## Usar token en rutas protegidas:
-## Header → Authorization: Bearer <token>
+- `Usar token en rutas protegidas:`
+- `Header → Authorization: Bearer <token>`
 
 # 🔌 Puertos
 
-## 3000 → API Node/Express
+- ` 3000 → API Node/Express`
 
-## 1433 → SQL Server en Docker
+- ` 1433 → SQL Server en Docker`
 
 Asegúrate de que no estén en uso. Si EADDRINUSE: 3000, mata el proceso que ocupa ese puerto (PowerShell):
 

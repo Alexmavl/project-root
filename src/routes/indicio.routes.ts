@@ -3,7 +3,10 @@ import { requireAuth } from '../auth/auth.middleware';
 import { requireRole } from '../auth/role.middleware';
 import { requireFields } from '../middlewares/validate.middleware';
 import {
-  listarIndiciosPorExpediente, crearIndicio, actualizarIndicio, activarDesactivarIndicio
+  listarIndiciosPorExpedientePorCodigo,
+  crearIndicioPorCodigo,
+  actualizarIndicioPorCodigo,
+  activarDesactivarIndicioPorCodigo
 } from '../controllers/indicio.controller';
 
 const router = Router({ mergeParams: true });
@@ -12,36 +15,48 @@ const router = Router({ mergeParams: true });
  * @swagger
  * tags:
  *   name: Indicios
- *   description: Gestión de indicios
+ *   description: Gestión de indicios (solo por CÓDIGO)
  */
 
 /**
  * @swagger
- * /expedientes/{id}/indicios:
+ * /expedientes/{codigo}/indicios:
  *   get:
- *     summary: Listar indicios por expediente
+ *     summary: Listar indicios por expediente (por código)
  *     tags: [Indicios]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: codigo
  *         required: true
- *         schema: { type: string, format: uuid }
+ *         schema: { type: string }
+ *       - in: query
+ *         name: q
+ *         schema: { type: string }
+ *       - in: query
+ *         name: page
+ *         schema: { type: integer, default: 1 }
+ *       - in: query
+ *         name: pageSize
+ *         schema: { type: integer, default: 10 }
+ *       - in: query
+ *         name: activo
+ *         schema: { type: boolean }
  *     responses:
  *       200: { description: OK }
  */
-router.get('/expedientes/:id/indicios', requireAuth, listarIndiciosPorExpediente);
+router.get('/expedientes/:codigo/indicios', requireAuth, listarIndiciosPorExpedientePorCodigo);
 
 /**
  * @swagger
- * /expedientes/{id}/indicios:
+ * /expedientes/{codigo}/indicios:
  *   post:
- *     summary: Crear un nuevo indicio en un expediente
+ *     summary: Crear indicio en expediente (por código)
  *     tags: [Indicios]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: codigo
  *         required: true
- *         schema: { type: string, format: uuid }
+ *         schema: { type: string }
  *     requestBody:
  *       required: true
  *       content:
@@ -50,31 +65,38 @@ router.get('/expedientes/:id/indicios', requireAuth, listarIndiciosPorExpediente
  *             type: object
  *             required: [codigo, descripcion, peso]
  *             properties:
- *               codigo: { type: string }
+ *               codigo: { type: string, description: "Código del indicio" }
  *               descripcion: { type: string }
  *               peso: { type: number }
+ *               color: { type: string }
+ *               tamano: { type: string }
  *     responses:
  *       201: { description: Creado }
+ *       409: { description: Código duplicado }
  */
 router.post(
-  '/expedientes/:id/indicios',
+  '/expedientes/:codigo/indicios',
   requireAuth,
   requireRole('tecnico'),
   requireFields(['codigo', 'descripcion', 'peso']),
-  crearIndicio
+  crearIndicioPorCodigo
 );
 
 /**
  * @swagger
- * /indicios/{id}:
+ * /expedientes/{codigo}/indicios/{codigoIndicio}:
  *   put:
- *     summary: Actualizar indicio
+ *     summary: Actualizar indicio (por códigos)
  *     tags: [Indicios]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: codigo
  *         required: true
- *         schema: { type: string, format: uuid }
+ *         schema: { type: string, description: "Código del expediente" }
+ *       - in: path
+ *         name: codigoIndicio
+ *         required: true
+ *         schema: { type: string, description: "Código actual del indicio (lookup)" }
  *     requestBody:
  *       required: true
  *       content:
@@ -83,32 +105,39 @@ router.post(
  *             type: object
  *             required: [codigo, descripcion, peso]
  *             properties:
- *               codigo: { type: string }
+ *               codigo: { type: string, description: "Nuevo código (o el mismo)" }
  *               descripcion: { type: string }
  *               peso: { type: number }
+ *               color: { type: string }
+ *               tamano: { type: string }
  *     responses:
  *       200: { description: OK }
  *       404: { description: No encontrado }
+ *       409: { description: Código duplicado }
  */
 router.put(
-  '/indicios/:id',
+  '/expedientes/:codigo/indicios/:codigoIndicio',
   requireAuth,
   requireRole('tecnico'),
   requireFields(['codigo', 'descripcion', 'peso']),
-  actualizarIndicio
+  actualizarIndicioPorCodigo
 );
 
 /**
  * @swagger
- * /indicios/{id}/activo:
+ * /expedientes/{codigo}/indicios/{codigoIndicio}/activo:
  *   patch:
- *     summary: Activar o desactivar un indicio
+ *     summary: Activar/Desactivar indicio (por códigos)
  *     tags: [Indicios]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: codigo
  *         required: true
- *         schema: { type: string, format: uuid }
+ *         schema: { type: string, description: "Código del expediente" }
+ *       - in: path
+ *         name: codigoIndicio
+ *         required: true
+ *         schema: { type: string, description: "Código del indicio (lookup)" }
  *     requestBody:
  *       required: true
  *       content:
@@ -123,10 +152,10 @@ router.put(
  *       404: { description: No encontrado }
  */
 router.patch(
-  '/indicios/:id/activo',
+  '/expedientes/:codigo/indicios/:codigoIndicio/activo',
   requireAuth,
   requireFields(['activo']),
-  activarDesactivarIndicio
+  activarDesactivarIndicioPorCodigo
 );
 
 export default router;
