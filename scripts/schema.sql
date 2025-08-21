@@ -1,3 +1,5 @@
+CREATE DATABASE gestiondb;
+
 -- Tablas base (SQL Server)
 CREATE TABLE dbo.Usuarios (
   id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
