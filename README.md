@@ -67,7 +67,6 @@ docker compose up -d
 
 ## Ver logs (opcional):
 
-## Ver logs (opcional):
 
  Los PS y Tablas de la base de datos gestiondb se encuentran en la carpeta db dentro de la carpeta src que se tienen crear en la base de datos
 
