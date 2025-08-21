@@ -14,3 +14,22 @@ export async function crearUsuario(req: Request, res: Response) {
     return res.status(500).json({ message: msg || 'Error creando usuario' });
   }
 }
+
+export async function listarUsuarios(req: Request, res: Response) {
+  const { q = '', page = '1', pageSize = '10', activo } = req.query as any;
+
+  const pageNum = Math.max(1, Number(page));
+  const pageSizeNum = Math.max(1, Math.min(200, Number(pageSize)));
+  const activoBit = activo === undefined ? null : (String(activo).toLowerCase() === 'true' ? 1 : 0);
+
+  try {
+    const rows = await ejecutarSP('sp_Usuarios_Listar', {
+      q, page: pageNum, pageSize: pageSizeNum, activo: activoBit
+    });
+
+    const total = rows?.[0]?.total ?? 0;
+    return res.json({ page: pageNum, pageSize: pageSizeNum, total, data: rows });
+  } catch (err: any) {
+    return res.status(500).json({ message: 'Error listando usuarios', error: String(err?.message || '') });
+  }
+}

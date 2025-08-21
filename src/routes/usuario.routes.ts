@@ -1,6 +1,8 @@
 import { Router } from 'express';
-import { crearUsuario } from '../controllers/usuario.controller';
+import { crearUsuario, listarUsuarios } from '../controllers/usuario.controller';
 import { requireFields } from '../middlewares/validate.middleware';
+import { requireRole } from '../auth/role.middleware';
+import { requireAuth } from '../auth/auth.middleware';
 
 const router = Router();
 
@@ -10,6 +12,33 @@ const router = Router();
  *   name: Usuarios
  *   description: Gestión de usuarios
  */
+
+
+/**
+ * @swagger
+ * /usuarios:
+ *   get:
+ *     summary: Listar usuarios
+ *     tags: [Usuarios]
+ *     parameters:
+ *       - in: query
+ *         name: q
+ *         schema: { type: string }
+ *       - in: query
+ *         name: page
+ *         schema: { type: integer, default: 1 }
+ *       - in: query
+ *         name: pageSize
+ *         schema: { type: integer, default: 10 }
+ *       - in: query
+ *         name: activo
+ *         schema: { type: boolean }
+ *     responses:
+ *       200: { description: OK }
+ */
+router.get('/', requireAuth, requireRole('coordinador'), listarUsuarios);
+
+
 
 /**
  * @swagger
