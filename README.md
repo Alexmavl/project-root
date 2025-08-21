@@ -22,3 +22,35 @@ npm run dev
 
 ## Swagger
 - `http://localhost:${PORT:-3000}/docs`
+
+# API Expedientes e Indicios (Node + SQL Server)
+
+## API REST con autenticación JWT, control de roles (tecnico / coordinador), y acceso a datos mediante procedimientos almacenados.
+
+- ` Backend: Node.js + Express + TypeScript`
+
+- ` BD: SQL Server 2022 en Docker`
+
+- ` Auth: JWT (bearer)`
+
+- ` Docs: Swagger en /docs`
+
+# 🔧 Requisitos
+
+- `Node.js 18+ (recomendado LTS)`
+
+- `npm 9+`
+
+- `Docker y Docker Compose`
+
+- `Postman (opcional)`
+
+- `Powershell / CMD`
+
+# 📦 Clonar e instalar dependencias
+# Clonar
+git clone https://github.com/Alexmavl/project-root.git
+cd project-root
+
+# Instalar dependencias
+npm install
