@@ -1,6 +1,16 @@
 {
   "watch": ["src"],
   "ext": "ts,js,json",
-  "ignore": ["dist"],
-  "exec": "node -r ts-node/register/transpile-only src/server.ts"
+  "ignore": ["dist", "node_modules"],
+  "exec": "node -r ts-node/register/transpile-only src/server.ts",
+  "env": {
+    "PORT": "3002",
+    "DB_HOST": "localhost",
+    "DB_PORT": "1433",
+    "DB_USER": "sa",
+    "DB_PASSWORD": "YourStrong!Passw0rd",
+    "DB_NAME": "gestiondb",
+    "DB_ENCRYPT": "false",
+    "DB_TRUST_CERT": "true"
+  }
 }

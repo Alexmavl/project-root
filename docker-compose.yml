@@ -11,5 +11,18 @@ services:
       - mssql-data:/var/opt/mssql
     restart: unless-stopped
 
+  api:
+    build: .
+    image: expedientes-indicios-api:1.0.0
+    container_name: expedientes-api
+    env_file:
+      - .env.docker
+    # Si quisieras sobrescribir algo, podrías agregar environment: con claves puntuales
+    depends_on:
+      - mssql
+    ports:
+      - "3001:3001"
+    restart: unless-stopped
+
 volumes:
   mssql-data:

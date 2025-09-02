@@ -4,11 +4,11 @@ import { config } from '../config/env';
 const poolPromise = new sql.ConnectionPool(config.db as any)
   .connect()
   .then(pool => {
-    console.log('✅ Conectado a SQL Server');
+    console.log(' Conectado a SQL Server');
     return pool;
   })
   .catch(err => {
-    console.error('❌ Error de conexión:', err);
+    console.error(' Error de conexión:', err);
     throw err;
   });
 
