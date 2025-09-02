@@ -16,7 +16,7 @@ services:
     image: expedientes-indicios-api:1.0.0
     container_name: expedientes-api
     env_file:
-      - .env.docker
+      - .env
     # Si quisieras sobrescribir algo, podrías agregar environment: con claves puntuales
     depends_on:
       - mssql
